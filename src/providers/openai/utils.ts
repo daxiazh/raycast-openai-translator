@@ -25,6 +25,8 @@ export async function fetchSSE(input: string, options: FetchSSEOptions) {
       ctrl.abort();
     }, timeout);
 
+    (fetchOptions as any).mode = "cors";
+
     const resp = await fetch(input, { ...fetchOptions, signal });
 
     clearTimeout(timerId);

@@ -1,10 +1,11 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "openai-translator",
-  "title": "OpenAI Translator",
+  "name": "easygame-openai-translator",
+  "title": "EasyGame OpenAI Translator",
   "description": "Translation based on ChatGPT API.",
   "icon": "extension_icon.png",
   "author": "douo",
+  "owner": "easygame",
   "categories": [
     "Applications",
     "Productivity"
@@ -16,6 +17,13 @@
       "title": "Translate",
       "subtitle": "Based on ChatGPT API",
       "description": "Translation based on ChatGPT API.",
+      "mode": "view"
+    },
+    {
+      "name": "codeReview",
+      "title": "代码审查",
+      "subtitle": "使用 ChatGPT 来审查选择的代码段",
+      "description": "使用 ChatGPT 来审查选择的代码段",
       "mode": "view"
     },
     {
