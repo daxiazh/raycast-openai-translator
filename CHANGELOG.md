@@ -2,6 +2,10 @@
 
 ## [Improve & Feature] - 2023-05-11  
 
+- 改为 got 来与 ChatGPT 通信, 以解决某些机器访问出错的问题
+
+## [Improve & Feature] - 2023-05-11  
+
 - Add code review with ChatGPT
 
 ## [Improve & Feature] - 2023-04-06

@@ -30,6 +30,8 @@ export default function Command(props: LaunchProps) {
     isReviewing: true, // 是否正在 Code Review
   });
 
+  const splitter = "### ---------";
+
   useEffect(() => {
     (async () => {
       try {
@@ -51,7 +53,7 @@ export default function Command(props: LaunchProps) {
           return;
         }
 
-        let allReviewedCode = `## 审查代码\n\`\`\`\n${selectedText}\n\n\`\`\`\n\n----  \n### 反馈  \n`;
+        let allReviewedCode = `## 审查代码\n\`\`\`\n${selectedText}\n\n\`\`\`\n\n----  \n${splitter}  \n`;
         setReviewedText(allReviewedCode);
 
         const query = {
@@ -97,7 +99,10 @@ export default function Command(props: LaunchProps) {
       markdown={reviewedCode}
       actions={
         <ActionPanel>
-          <Action.CopyToClipboard content={reviewedCode} shortcut={{ modifiers: ["cmd"], key: "." }} />
+          <Action.CopyToClipboard
+            content={reviewedCode.slice(reviewedCode.indexOf(splitter) + splitter.length)}
+            shortcut={{ modifiers: ["cmd"], key: "." }}
+          />
         </ActionPanel>
       }
     />
