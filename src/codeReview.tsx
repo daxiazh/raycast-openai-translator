@@ -51,7 +51,9 @@ export default function Command(props: LaunchProps) {
           return;
         }
 
-        let allReviewedCode = "";
+        let allReviewedCode = `## 审查代码\n\`\`\`\n${selectedText}\n\n\`\`\`\n\n----  \n### 反馈  \n`;
+        setReviewedText(allReviewedCode);
+
         const query = {
           onMessage: (message: any) => {
             if (message.role) {
