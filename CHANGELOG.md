@@ -1,5 +1,9 @@
 # OpenAI Translator Changelog
 
+## [Improve & Feature] - 2023-05-11  
+
+- Add code review with ChatGPT
+
 ## [Improve & Feature] - 2023-04-06
 
 - Add SOCKS5 proxy suppoort
