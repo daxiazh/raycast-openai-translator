@@ -438,7 +438,7 @@
     "eventsource-parser": "^0.1.0",
     "guesslanguage-ng": "^0.0.2",
     "languagedetect": "^2.0.0",
-    "node-fetch": "^3.3.0",
+    "node-fetch": "^2.6.11",
     "socks-proxy-agent": "^7.0.0",
     "uuid": "^9.0.0",
     "xregexp": "^5.1.1"

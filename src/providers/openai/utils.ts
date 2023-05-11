@@ -9,7 +9,6 @@ interface FetchSSEOptions extends RequestInit {
 }
 
 export async function fetchSSE(input: string, options: FetchSSEOptions) {
-  const proxy = "socks5://localhost:1080";
 
   const { onMessage, onError, signal: originSignal, ...fetchOptions } = options;
   const timeout = 15 * 1000;
@@ -24,8 +23,6 @@ export async function fetchSSE(input: string, options: FetchSSEOptions) {
       abortByTimeout = true;
       ctrl.abort();
     }, timeout);
-
-    (fetchOptions as any).mode = "cors";
 
     const resp = await fetch(input, { ...fetchOptions, signal });
 
