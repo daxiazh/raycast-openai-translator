@@ -1,5 +1,4 @@
 import { createParser } from "eventsource-parser";
-import got from "got";
 import fetch, { RequestInit } from "node-fetch";
 import { isReadable, Readable } from "stream";
 
@@ -9,56 +8,46 @@ interface FetchSSEOptions extends RequestInit {
   onError(error: any): void;
 }
 
-export async function fetchSSE(input: string, options: FetchSSEOptions) {
-  const proxy = "socks5://localhost:1080";
+export async function fetchSSE(url: string, options: FetchSSEOptions) {
+  // console.log("开始请求: " + input);
+  // 去掉不可见的符号, 这会在某些机器上导致 url 识别出错
+  url = url.replace(/\u200B/g, "").trim();
 
   const { onMessage, onError, signal: originSignal, ...fetchOptions } = options;
-  const timeout = 60 * 1000;
+  const timeout = 15 * 1000;
   let abortByTimeout = false;
   try {
-
-    const stream = got.stream.post(input, {
-      headers: fetchOptions.headers as any,
-      body: fetchOptions.body,
-    });
-
+    const ctrl = new AbortController();
+    const { signal } = ctrl;
     if (originSignal) {
-      originSignal.addEventListener("abort", () =>
-        stream.destroy());
+      originSignal.addEventListener("abort", () => ctrl.abort());
     }
     const timerId = setTimeout(() => {
       abortByTimeout = true;
-      stream.destroy();
+      ctrl.abort();
     }, timeout);
 
+    const resp = await fetch(url, { ...fetchOptions, signal });
+
+    clearTimeout(timerId);
+
+    if (resp.status !== 200) {
+      onError(await resp.json());
+      return;
+    }
     const parser = createParser((event) => {
       if (event.type === "event") {
         onMessage(event.data);
       }
     });
-
-    stream.on("data", (chunk) => {
-      if (chunk) {
-        const str = new TextDecoder().decode(chunk as ArrayBuffer);
-        parser.feed(str);
+    if (resp.body) {
+      for await (const chunk of resp.body) {
+        if (chunk) {
+          const str = new TextDecoder().decode(chunk as ArrayBuffer);
+          parser.feed(str);
+        }
       }
-    });
-
-    stream.on("error", (err) => {
-      if (abortByTimeout) {
-        onError({ error: { message: "Connection Timeout" } });
-      } else {
-        onError({ err });
-      }
-    });
-
-    return new Promise<void>((resolve) => {
-      stream.on("end", () => {
-        clearTimeout(timerId);
-        resolve();
-      });
-    })
-
+    }
   } catch (error) {
     if (abortByTimeout) {
       onError({ error: { message: "Connection Timeout" } });

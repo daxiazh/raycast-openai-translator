@@ -30,7 +30,7 @@ export default function Command(props: LaunchProps) {
     isReviewing: true, // 是否正在 Code Review
   });
 
-  const splitter = "### ---------";
+  const AI_REPLY_SPLITTER = "## AI 回复"; // AI 回复的分隔线
 
   useEffect(() => {
     (async () => {
@@ -53,7 +53,7 @@ export default function Command(props: LaunchProps) {
           return;
         }
 
-        let allReviewedCode = `## 审查代码\n\`\`\`\n${selectedText}\n\n\`\`\`\n\n----  \n${splitter}  \n`;
+        let allReviewedCode = `## 待审查代码\n\`\`\`\n${selectedText}\n\n\`\`\`\n\n----  \n${AI_REPLY_SPLITTER}  \n`;
         setReviewedText(allReviewedCode);
 
         const query = {
@@ -100,7 +100,8 @@ export default function Command(props: LaunchProps) {
       actions={
         <ActionPanel>
           <Action.CopyToClipboard
-            content={reviewedCode.slice(reviewedCode.indexOf(splitter) + splitter.length)}
+            title="复制AI回复到剪切板"
+            content={reviewedCode.slice(reviewedCode.indexOf(AI_REPLY_SPLITTER) + AI_REPLY_SPLITTER.length)}
             shortcut={{ modifiers: ["cmd"], key: "." }}
           />
         </ActionPanel>

@@ -436,7 +436,6 @@
     "@raycast/api": "^1.48.4",
     "capitalize": "^2.0.4",
     "eventsource-parser": "^0.1.0",
-    "got": "^12.6.0",
     "guesslanguage-ng": "^0.0.2",
     "languagedetect": "^2.0.0",
     "node-fetch": "^3.3.1",
